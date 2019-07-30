@@ -6,7 +6,7 @@ B2NOTE widget can be integrated into web application using these options:
 
 - embedded `div` and `iframe` within your web application, where b2note widget can be displayed.
 - pop-up window opened next to your window
-
+- webcomponent
 
 ## Embedded DIV and IFRAME  
 This option integrates b2note widget directly into your web application. You can design it to disappear after it's not needed anymore.
@@ -76,3 +76,41 @@ This form just creates a button, after clicking it, it sends POST request with f
 - `pid_tofeed` may contain unique URL to the resource.
 
 You can place as many as possible forms with buttons as needed - differing in `<form id='xx'>` and fields `subject_tofeed` and `pid_tofeed`. 
+
+## Webcomponent
+
+
+Web components (https://www.webcomponents.org) is standardized way to export complex web application into reusable component.
+B2NOTE app exports custom-elements for these components using 'b2note-' prefix:
+
+- src/widget/b2note as `<b2note-b2note targetsource="" targetid="">`
+- src/pages/search as `<b2note-search>`
+- src/pages/home as `<b2note-home>`
+- src/pages/help as `<b2note-help>`
+
+Further webcomponents can be exported by ammending the `src/webcomponent/b2note.js` and building the app.bundle.js.
+ 
+Script with bundle `b2note_app/dist/app.bundle.js` can be used to add b2note web components into any web application or web page.
+
+The following HTML snippet loads first the `app.bundle.js` script and use custom-element `<b2note-b2note>` with custom attributes
+`targetid=""` and `targetsource=""` to specify target for annotation. There is additionally button to hide the `<div>` containing the custom element.
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>B2Note web component</title>
+     <script type="module" src="app.bundle.js"></script>
+  </head>
+  <body aurelia-app="webcomponent/b2note">
+  <h3>B2NOTE as web component</h3>
+  <p>This is demo page for B2NOTE web component.</p>
+  <div id="aucontainer2" style="float:right;width:33%">b2note-b2note
+    <button onclick="document.getElementById('aucontainer2').hidden=true" title="close b2note component">x</button>
+    <b2note-b2note targetsource="https://b2share.eudat.eu/records/39fa39965b314f658e4a198a78d7f6b5" targetid="http://hdl.handle.net/11304/3720bb44-831c-48f3-9847-6988a41236e1"></b2note-b2note>
+  <br/>
+  </div>
+  </body>
+</html>
+```
